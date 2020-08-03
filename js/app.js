@@ -1,7 +1,7 @@
 // Variables
 const presupuestoUsuario = prompt('¿Cuál es tu presupuesto semanal?');
 const formulario = document.getElementById('agregar-gasto');
-let cantidadPresupuesto
+let cantidadPresupuesto;
 
 
 //Clases
@@ -46,6 +46,35 @@ class Interfaz{
         },2500);
 
     }
+    //Inserta los gastos al listado
+    agregarGastoListado(nombre, cantidad){
+        const gastos = document.querySelector('#gastos ul');
+
+        //Crear un elemento li
+        const li = document.createElement('li');
+        li.className = 'list-group-item d-flex justify-content-between align-items-center';//La misma que lasugerida en el curso
+        //Insertar el gasto
+        li.innerHTML = `
+            ${nombre}
+            <span class="badge badge-primary badge-pill"> $ ${cantidad}
+        `;//Igual a lo sugerido en el curso
+        
+        //Insertar al HTML
+        gastos.appendChild(li);
+    }
+    //Comprueba el presupuesto restante
+    presupuestoRestante(cantidad){
+        const restante = document.querySelector('span#restante');
+        //Leemos el presupuesto restante
+        const presupuestoRestUsuario = cantidadPresupuesto.presupuestoRestante(cantidad);
+
+        restante.innerHTML = `${presupuestoRestUsuario}`;
+
+        this.comprobarPresupuesto();
+    }
+    //Cambia de color el presupuesto restante
+    comprobarPresupuesto();
+
 }
 
 
@@ -78,6 +107,9 @@ formulario.addEventListener('submit', function(e){
         ui.imprimirMensaje('Hubo un error','error');
     }else{
         //console.log('el gasto se agregó');
+        ui.imprimirMensaje('Correcto','correcto');
+        ui.agregarGastoListado(nombreGasto, cantidadGastos);
+        ui.presupuestoRestante(cantidadGastos);
     }
 
 })
